@@ -890,18 +890,6 @@ Requirements:
 
 > For a first local project, running a database inside the cluster is acceptable for learning. It should not be presented as a complete production database architecture.
 
-## Completion checklist
-
-- [ ] I can explain Kubernetes architecture.
-- [ ] I can write and apply manifests.
-- [ ] I can manage Pods through Deployments.
-- [ ] I can expose workloads through Services.
-- [ ] I can use ConfigMaps and Secrets appropriately.
-- [ ] I can configure probes and resources.
-- [ ] I can perform scaling, updates and rollbacks.
-- [ ] I can troubleshoot common Pod and Service failures.
-- [ ] I completed the mini project.
-
 ---
 
 # Official references
