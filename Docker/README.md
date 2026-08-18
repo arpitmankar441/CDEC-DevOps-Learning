@@ -1,950 +1,665 @@
-# 🐳 Docker Fundamentals
+# 🐳 Docker Fundamentals — Student Learning Guide
 
-Welcome to the **Docker Fundamentals** section.
+This section teaches Docker from fundamentals to a practical multi-container application.
 
-Docker is one of the most important tools for DevOps engineers.
+> **Learning method:** Understand → Run → Inspect → Break → Troubleshoot → Build
 
-Docker is used to package applications and their dependencies into lightweight, portable containers.
+## Learning outcomes
 
-The goal of this section is:
+After completing this section, a student should be able to:
 
-> **Learn → Understand → Practice → Troubleshoot → Build**
+- Explain images, containers, registries, volumes and networks.
+- Install and verify Docker safely.
+- Create, start, inspect, stop and remove containers.
+- Build reproducible images with a Dockerfile.
+- Persist data with named volumes and share development files with bind mounts.
+- Connect services with a user-defined bridge network.
+- Define a multi-container application with Docker Compose.
+- Diagnose common container, port, image, network and storage problems.
+
+## Roadmap
+
+1. Containerization and Docker architecture
+2. Installation and verification
+3. Container lifecycle and commands
+4. Images and registries
+5. Port publishing and environment variables
+6. Networking
+7. Persistent storage
+8. Dockerfiles and image builds
+9. Docker Compose
+10. Troubleshooting
+11. Practical labs
+12. Assignment and mini project
 
 ---
 
-# 📚 Docker Learning Roadmap
+# 1. Containerization fundamentals
 
-Students should follow this order:
+## Traditional deployment
+
+An application is installed directly on a server with its runtime, libraries and configuration. Different applications can create dependency conflicts on the same server.
+
+## Virtual machines and containers
+
+| Area | Virtual machine | Container |
+|---|---|---|
+| Isolation | Separate guest operating system | Isolated processes sharing the host kernel |
+| Startup | Usually slower | Usually faster |
+| Size | Generally larger | Generally smaller |
+| Typical use | Strong OS-level isolation and different kernels | Portable application packaging and rapid deployment |
+
+Containers are not simply “lightweight virtual machines.” They isolate applications differently and normally share the host kernel.
+
+## What is Docker?
+
+Docker is a platform for building, distributing and running applications in containers.
+
+### Core objects
+
+| Object | Meaning |
+|---|---|
+| Dockerfile | Instructions used to build an image |
+| Image | Immutable template containing an application and its required files |
+| Container | A running or stopped instance of an image |
+| Registry | Service that stores and distributes images |
+| Volume | Docker-managed persistent data storage |
+| Network | Communication boundary connecting containers |
+| Compose file | YAML definition of a multi-container application |
+
+## Docker architecture
+
+The Docker CLI sends requests to the Docker daemon. The daemon builds images and manages containers, networks and volumes. Images can be pulled from or pushed to a registry such as Docker Hub or Amazon ECR.
 
 ```text
-1. Monolithic vs Microservices
-        ↓
-2. Traditional vs Virtualization vs Containerization
-        ↓
-3. Introduction to Containerization
-        ↓
-4. Introduction to Docker
-        ↓
-5. Docker Installation
-        ↓
-6. Docker Architecture
-        ↓
-7. Docker Images
-        ↓
-8. Docker Containers
-        ↓
-9. Docker Container Commands
-        ↓
-10. Docker Port Mapping
-        ↓
-11. Docker Environment Variables
-        ↓
-12. Docker exec & cp
-        ↓
-13. Docker Logs & Inspect
-        ↓
-14. Docker Hub
-        ↓
-15. Amazon ECR
-        ↓
-16. Docker Image Commands
-        ↓
-17. Docker Networking
-        ↓
-18. Docker Volumes
-        ↓
-19. Bind Mounts
-        ↓
-20. Dockerfile
-        ↓
-21. Docker Image Build
-        ↓
-22. Docker Compose
-        ↓
-23. Multi-Container Applications
-        ↓
-24. Practical Labs
-        ↓
-25. Assignment
-        ↓
-26. Mini Project
-
-# Day-1 : 🐳 Introduction to Containerization and Docker Basics ⚓
-
-
-## Difference between Monolithic and Microservices
-
-## Monolithic Architecture
-- A single, unified application where all components are tightly coupled.
-- Difficult to scale individual components.
-- Deployment and updates require redeploying the entire application.
-- Example: A traditional web application where frontend, backend, and database are all part of the same codebase.
-
-## Microservices Architecture
-- Application is broken down into smaller, independent services.
-- Each service can be developed, deployed, and scaled independently.
-- Enables better fault isolation and easier technology upgrades.
-- Example: An e-commerce platform with separate services for user authentication, product catalog, and order management.
+Docker CLI → Docker daemon → Images / Containers / Networks / Volumes
+                              ↕
+                           Registry
+```
 
 ---
 
-![Alt text](arch.gif)
+# 2. Install and verify Docker
 
+Use the official installation instructions for your operating system because package names and supported versions change:
 
+- Ubuntu: https://docs.docker.com/engine/install/ubuntu/
+- Other Linux distributions: https://docs.docker.com/engine/install/
+- Docker Desktop: https://docs.docker.com/desktop/
 
-# Difference between Traditional, Virtualization, and Containerization Deployment
+After installation, verify:
 
-| Deployment Type     | Description |
-|--------------------|-------------|
-| **Traditional**    | Directly installs applications on physical servers, leading to inefficient resource utilization. |
-| **Virtualization** | Uses a hypervisor to create multiple virtual machines (VMs) on a single physical server. Each VM has its own OS. |
-| **Containerization** | Uses container technology to package applications and dependencies together, sharing the host OS for lightweight and efficient deployment. |
+```bash
+docker version
+docker info
+sudo systemctl status docker
+sudo docker run --rm hello-world
+```
+
+## Run Docker without typing `sudo` every time
+
+On a personal learning machine, add the current user to the Docker group:
+
+```bash
+sudo usermod -aG docker "$USER"
+```
+
+Log out and log back in, then test:
+
+```bash
+docker run --rm hello-world
+```
+
+> **Security warning:** Membership in the `docker` group grants root-level capabilities. Use it only for trusted users. Consider Docker rootless mode where appropriate.
+
+## Unsafe instruction to avoid
+
+Do **not** teach this as a normal fix:
+
+```bash
+sudo chmod 777 /var/run/docker.sock
+```
+
+It gives every local user read/write access to the Docker socket and creates a serious privilege risk. Fix group membership or use rootless mode instead.
 
 ---
 
-# Introduction to Containerization 📦 
-Containerization is a method of packaging applications and their dependencies together in isolated environments known as containers. It ensures that applications run consistently across different computing environments.
+# 3. Container lifecycle
 
-## Key Concepts:
-- **Container**: A lightweight, standalone executable package that includes everything needed to run an application.
-- **Image**: A template used to create containers. It includes application code, dependencies, and runtime.
+## First container
 
----
-
-# Introduction to Docker 🐳 
-Docker is a platform for developing, shipping, and running applications in containers. It simplifies application deployment across different environments.
-
-## Why Use Docker?
-- Ensures consistent environments across development, testing, and production.
-- Reduces infrastructure overhead and resource consumption.
-- Improves application scalability and portability.
-
----
-
-# Difference between Docker CE and Docker EE
-
-| Feature         | Docker CE (Community Edition) | Docker EE (Enterprise Edition) |
-|---------------|-----------------------------|-----------------------------|
-| **License**   | Open-source and free        | Paid with enterprise support |
-| **Security**  | Basic security features     | Advanced security features   |
-| **Support**   | Community support           | Professional support from Docker |
-| **Management** | Basic container management | Advanced container orchestration and management |
-
----
-
-# Day-2 : Docker Container Commands
-
-## Introduction
-Docker is a containerization platform that allows developers to package applications and dependencies into lightweight, portable containers. This guide covers essential Docker container commands and hands-on experiments to help students understand container management.
-
----
-
-## Essential Commands for Container Management using Docker
-
-### 1. **Create a Container**
-```sh
-docker create --name my_container ubuntu
+```bash
+docker run --name student-nginx -d -p 8080:80 nginx:alpine
 ```
-Creates a new container from an Ubuntu image but does not start it.
 
-### 2. **Run a Container**
-```sh
-docker run -it ubuntu
-```
-Runs a new container interactively with an Ubuntu image.
+Open `http://localhost:8080`.
 
-### 3. **Run a Container in Detached Mode**
-```sh
-docker run -d --name my_container nginx
-```
-Starts a container in the background using the Nginx image.
+The options mean:
 
-### 4. **Stop a Running Container**
-```sh
-docker stop my_container
-```
-Stops the specified container.
+| Option | Meaning |
+|---|---|
+| `--name student-nginx` | Gives the container a readable name |
+| `-d` | Runs it in the background |
+| `-p 8080:80` | Maps host port 8080 to container port 80 |
+| `nginx:alpine` | Image name and tag |
 
-### 5. **Start a Stopped Container**
-```sh
-docker start my_container
-```
-Starts an existing container.
+## Essential commands
 
-### 6. **Remove a Container**
-```sh
-docker rm my_container
-```
-Removes a stopped container.
-
-### 7. **List All Running Containers**
-```sh
+```bash
 docker ps
-```
-Displays active containers.
-
-### 8. **List All Containers (Running & Stopped)**
-```sh
 docker ps -a
-```
-Displays all containers, including stopped ones.
-
-
-
----
-
-## Expose Applications to the World
-
-### 1. **Run a Container and Expose a Port**
-```sh
-docker run -d -p 8080:80 nginx
-```
-Maps port `8080` on the host to port `80` inside the container.
-
-### 2. **Run a Container with Environment Variables**
-```sh
-docker run -d -e "ENV_VAR=value" my_app
-```
-Passes environment variables to a container.
-
-### 3. **Expose Random Ports Using `-P` Flag**
-```sh
-docker run -d -P nginx
-```
-Automatically assigns random ports to the container.
-
----
-
-## Interacting with Containers using `exec`
-
-### 1. **Execute Commands in a Running Container**
-```sh
-docker exec -it my_container bash
-```
-Attaches an interactive terminal to a running container.
-
-### 2. **Copy Files from Host to Container**
-```sh
-docker cp my_file.txt my_container:/tmp/
-```
-Copies a file into a container.
-
-### 3. **Copy Files from Container to Host**
-```sh
-docker cp my_container:/tmp/my_file.txt ./
-```
-Retrieves a file from a container.
-
----
-
-## Inspect and Troubleshoot Containers
-
-### 1. **Inspect a Container's Metadata**
-```sh
-docker inspect my_container
-```
-Retrieves detailed information about a container.
-
-### 2. **View Logs from a Running Container**
-```sh
-docker logs my_container
-```
-Displays real-time logs from a container.
-
-### 3. **Monitor Resource Usage of a Running Container**
-```sh
+docker logs student-nginx
+docker logs -f student-nginx
+docker inspect student-nginx
 docker stats
+docker exec -it student-nginx sh
+docker stop student-nginx
+docker start student-nginx
+docker restart student-nginx
+docker rm -f student-nginx
 ```
-Shows CPU, memory, and network usage of running containers.
+
+## `run`, `create`, `start` and `exec`
+
+- `docker create` creates a stopped container.
+- `docker start` starts an existing stopped container.
+- `docker run` creates and starts a new container.
+- `docker exec` runs another command inside an already-running container.
+
+## Container lifecycle
+
+```text
+Created → Running → Stopped → Removed
+             ↕
+           Paused
+```
+
+Removing a container does not automatically remove its image or named volumes.
 
 ---
 
-## Experiment with Docker Containers
-### 1. **Create, Start, Stop, and Run Containers**
-Follow the commands above to create and manage containers.
+# 4. Images and registries
 
-### 2. **Expose Applications to the World**
-Use `-p` and `-P` flags to expose containerized applications to external networks.
+## Image naming
 
-### 3. **Interact with Containers using `exec`**
-Try executing commands inside a running container using `docker exec`.
+```text
+[registry/][namespace/]repository[:tag]
+```
 
-### 4. **Troubleshooting Steps**
-- Use `docker ps -a` to check container status.
-- Use `docker logs <container_name>` to view logs.
-- Use `docker inspect <container_name>` to check metadata.
+Examples:
+
+```text
+nginx:alpine
+username/student-api:v1
+123456789012.dkr.ecr.ap-south-1.amazonaws.com/student-api:v1
+```
+
+If no tag is supplied, Docker commonly uses `latest`. `latest` does not mean “newest verified version”; it is only a tag.
+
+## Image commands
+
+```bash
+docker image ls
+docker pull nginx:alpine
+docker image inspect nginx:alpine
+docker tag student-api:v1 username/student-api:v1
+docker push username/student-api:v1
+docker image rm nginx:alpine
+docker history student-api:v1
+```
+
+Use trusted images, prefer explicit tags and never put passwords or API keys inside an image.
+
+`docker commit` can capture changes from a container, but it is not the normal reproducible workflow. Use a Dockerfile for application images.
 
 ---
 
-### docker rm -f $(docker ps -aq)
+# 5. Ports and configuration
+
+## Port publishing
+
+```bash
+docker run -d -p 127.0.0.1:8080:80 nginx:alpine
+```
+
+Format:
+
+```text
+[host-address:]host-port:container-port
+```
+
+Binding to `127.0.0.1` limits access to the Docker host. Publishing without a host address can expose the port through all host interfaces, depending on host configuration.
+
+## `EXPOSE` versus `-p`
+
+- `EXPOSE 3000` documents that the image expects to listen on port 3000.
+- `docker run -p 8080:3000 ...` publishes that port on the host.
+- `EXPOSE` alone does not make the application publicly accessible.
+
+## Environment variables
+
+```bash
+docker run --rm -e APP_ENV=development alpine env
+```
+
+For sensitive values, use an appropriate secrets mechanism. Do not commit `.env` files containing secrets.
 
 ---
-# Introduction to Docker Images and Its Naming
 
-Docker images are lightweight, stand-alone, and executable software packages that include everything needed to run an application, including the code, runtime, libraries, environment variables, and dependencies.
+# 6. Docker networking
 
-## Naming Convention for Docker Images
-A Docker image name follows this pattern:
+## Common drivers
 
-```
-<repository>/<image-name>:<tag>
-```
-### Example:
-```
-r123mahajan/new:latest
-```
-- **Repository**: Name of the repository (e.g., `nginx`, `ubuntu`)
-- **Image Name**: A descriptive name for the image
-- **Tag**: A label to identify different versions (e.g., `latest`, `v1.0`)
+| Driver | Beginner use |
+|---|---|
+| `bridge` | Containers communicating on one Docker host |
+| `host` | Container shares the host network namespace; Linux-specific trade-offs |
+| `none` | Container has no external network connectivity |
+| `overlay` | Multi-host communication in Docker Swarm |
 
-Example:
-```
-docker pull ubuntu:20.04
-```
+For a normal multi-container project on one host, create a user-defined bridge network.
 
-# Introduction to DockerHub and Amazon ECR
+```bash
+docker network create student-net
 
-## DockerHub
-Docker Hub is a cloud-based registry service that allows users to store and distribute container images.
+docker run -d --name database \
+  --network student-net \
+  -e MARIADB_ROOT_PASSWORD=learning-only \
+  mariadb:11
 
-- **Public and Private Repositories**: Users can create both public and private repositories.
-- **Pre-built Images**: Official images such as `nginx`, `mysql`, and `ubuntu` are available.
-- **User Authentication**: Requires login for pushing images to private repositories.
-
-## Amazon ECR (Elastic Container Registry)
-Amazon Elastic Container Registry (ECR) is a managed container image registry service provided by AWS.
-
-- **Integration with AWS Services**: Works seamlessly with ECS and EKS.
-- **Access Control**: Uses AWS IAM for authentication.
-- **Private Registry**: Secure storage of images within AWS.
-
-# Docker Image Commands
-
-## 1. Pull an Image
-Downloads an image from DockerHub or any registry.
-```
-docker pull <image-name>:<tag>
-```
-Example:
-```
-docker pull nginx:latest
+docker run --rm --network student-net busybox ping -c 3 database
 ```
 
-## 2. Login to DockerHub
-Authenticates the user with DockerHub.
-```
-docker login -u <username>
+Containers on the same user-defined bridge network can discover each other by container name or network alias.
 
-* example docker login -u r123mahajan
-```
-For Amazon ECR:
-```
-aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
-```
+Useful commands:
 
-## 3. Push an Image
-Pushes an image to a remote repository (DockerHub or ECR).
-```
-docker push <repository>/<image-name>:<tag>
-
-```
-Example:
-```
-docker push myrepo/myapp:v1
+```bash
+docker network ls
+docker network inspect student-net
+docker network connect student-net CONTAINER
+docker network disconnect student-net CONTAINER
+docker network rm student-net
 ```
 
-## 4. Commit a Container as an Image
-Creates a new image from a running container.
-```
-docker commit <container-id> <new-image-name>
-```
-Example:
-```
-docker commit abc123 my-custom-image:v1
+Do not create custom subnets unless the project requires them. Avoid CIDR ranges that overlap with the host, VPN, cloud VPC or other Docker networks.
+
+---
+
+# 7. Persistent storage
+
+Container writable layers are not the right place for important persistent data.
+
+## Named volume
+
+Docker creates and manages the storage location.
+
+```bash
+docker volume create student-data
+
+docker run --rm \
+  --mount source=student-data,target=/data \
+  alpine sh -c 'echo "persistent" > /data/message.txt'
+
+docker run --rm \
+  --mount source=student-data,target=/data \
+  alpine cat /data/message.txt
 ```
 
-## 5. Tag an Image
-Tags an existing image with a new name or version.
-```
-docker tag <image-id> <repository>/<new-image-name>:<tag>
-```
-Example:
-```
-docker tag my-app:latest myrepo/my-app:v2
+## Bind mount
+
+A specific host path is mounted into a container.
+
+```bash
+docker run --rm \
+  --mount type=bind,source="$(pwd)",target=/workspace,readonly \
+  alpine ls /workspace
 ```
 
-## 6. Remove an Image
-Deletes an image from the local machine.
+## Volume versus bind mount
+
+| Area | Named volume | Bind mount |
+|---|---|---|
+| Managed by | Docker | User/host filesystem |
+| Portability | Better | Depends on host path |
+| Common use | Databases and application data | Development source code and configuration |
+| Host coupling | Lower | Higher |
+
+Prefer `--mount` in teaching examples because its fields are explicit.
+
+Commands:
+
+```bash
+docker volume ls
+docker volume inspect student-data
+docker volume rm student-data
+docker volume prune
 ```
-docker rmi <image-id>
+
+> `docker volume prune` removes unused volumes. Inspect the target environment before confirming cleanup.
+
+---
+
+# 8. Dockerfiles
+
+A Dockerfile makes image creation repeatable and reviewable.
+
+## Node.js example
+
+```dockerfile
+FROM node:22-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+COPY . .
+
+ENV NODE_ENV=production
+EXPOSE 3000
+
+USER node
+CMD ["node", "server.js"]
 ```
-Example:
+
+Build and run:
+
+```bash
+docker build -t student-api:v1 .
+docker run --rm -p 3000:3000 student-api:v1
 ```
-docker rmi nginx:latest
+
+## Important instructions
+
+| Instruction | Purpose |
+|---|---|
+| `FROM` | Selects the base image |
+| `WORKDIR` | Sets the working directory |
+| `COPY` | Copies files from the build context |
+| `RUN` | Executes a command while building |
+| `ENV` | Defines runtime environment variables |
+| `ARG` | Defines build-time variables; not suitable for secrets |
+| `EXPOSE` | Documents the intended listening port |
+| `USER` | Selects the runtime user |
+| `CMD` | Provides the default container command |
+| `ENTRYPOINT` | Configures the executable run for the container |
+
+## `RUN`, `CMD` and `ENTRYPOINT`
+
+- `RUN` executes during image build and creates an image layer.
+- `CMD` supplies the default runtime command or default arguments.
+- `ENTRYPOINT` makes the container behave like a specific executable.
+
+Prefer JSON/exec form:
+
+```dockerfile
+CMD ["node", "server.js"]
 ```
-###  Delete all Images
+
+## `.dockerignore`
+
+```text
+node_modules
+.git
+.env
+npm-debug.log
+README.md
 ```
+
+## Basic good practices
+
+- Use a small, trusted base image suitable for the application.
+- Pin deliberate versions/tags and update them regularly.
+- Copy dependency manifests before source code to improve build cache reuse.
+- Use multi-stage builds where they materially reduce the final image.
+- Run as a non-root user when possible.
+- Never copy credentials, private keys or `.env` secrets into the image.
+- Keep the build context small with `.dockerignore`.
+
+---
+
+# 9. Docker Compose
+
+Docker Compose defines and runs a multi-container application using YAML.
+
+Use the modern command:
+
+```bash
+docker compose version
+```
+
+The older `docker-compose` command belongs to Compose v1 and should not be the main command in new notes.
+
+## Example `compose.yaml`
+
+```yaml
+services:
+  api:
+    build: ./api
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      DB_HOST: database
+      DB_PORT: "5432"
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: studentdb
+      POSTGRES_USER: student
+      POSTGRES_PASSWORD: learning-only
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U student -d studentdb"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  database-data:
+```
+
+Compose automatically creates a project network. The API connects to PostgreSQL using hostname `database`, not `localhost`.
+
+## Compose commands
+
+```bash
+docker compose config
+docker compose up --build
+docker compose up -d --build
+docker compose ps
+docker compose logs -f
+docker compose exec api sh
+docker compose stop
+docker compose down
+docker compose down --volumes
+```
+
+`docker compose down --volumes` deletes named volumes declared by the project and can destroy database data. Use it only when that deletion is intended.
+
+`depends_on` controls startup order. Application readiness requires a health check and, in real systems, retry logic in the dependent application.
+
+---
+
+# 10. Troubleshooting workflow
+
+Use this sequence instead of randomly reinstalling Docker:
+
+```bash
+docker ps -a
+docker logs CONTAINER
+docker inspect CONTAINER
+docker stats
+docker network ls
+docker volume ls
+docker system df
+```
+
+For Compose:
+
+```bash
+docker compose config
+docker compose ps
+docker compose logs -f SERVICE
+```
+
+## Common problems
+
+### Port already in use
+
+Choose another host port or stop the process/container already using it.
+
+```bash
+docker ps --format 'table {{.Names}}\t{{.Ports}}'
+```
+
+### Container exits immediately
+
+Containers stop when their main process exits.
+
+```bash
+docker ps -a
+docker logs CONTAINER
+docker inspect CONTAINER
+```
+
+### Permission denied on Docker socket
+
+Verify group membership, log out and back in, or use `sudo` temporarily. Do not solve it with socket permissions set to `777`.
+
+### Services cannot communicate
+
+Check that both containers share a network and use the service/container name as the hostname.
+
+```bash
+docker network inspect NETWORK
+```
+
+### Data disappeared
+
+Check whether the application wrote to a named volume or only to the container writable layer.
+
+```bash
+docker volume ls
+docker inspect CONTAINER
+```
+
+## Cleanup safety
+
+Avoid publishing commands such as the following as routine student cleanup:
+
+```bash
+docker rm -f $(docker ps -aq)
 docker rmi -f $(docker images -aq)
 ```
-# Understanding Docker Networking
 
-## Introduction to Docker Network
-Docker networking allows containers to communicate with each other, external services, and the host system. It provides flexibility in how containers interact with each other and the outside world.
-
-## Different Network Drivers
-Docker offers several network drivers, each suited for different use cases:
-
-1. **Bridge Network (Default)**: 
-   - Used when a container is started without specifying a network.
-   - Containers can communicate with each other using container names.
-   - Suitable for standalone applications.
-
-   
-2. **Host Network**: 
-   - Removes network isolation between the container and the host.
-   - The container shares the host's networking stack.
-   - Best for performance-intensive applications where network isolation isn't needed.
-   
-
-3. **None Network**: 
-   - The container has no network interfaces.
-   - Useful for security-sensitive applications that do not require network access.
-   
-
-4. **Overlay Network**: 
-   - Used in Docker Swarm mode for multi-host communication.
-   - Connects containers across multiple Docker daemon instances.
-
-
-   
-5. **Macvlan Network**: 
-   - Assigns a MAC address to a container, making it appear as a physical device.
-   - Suitable for legacy applications requiring direct network access.
-  
-   
-6. **IPvlan Network**: 
-   - Similar to Macvlan but with more flexibility in IP management.
-   - Offers better control over IP address assignment.
-
-## Docker Network Commands
-### Listing Networks
-```sh
-docker network ls
-```
-### Creating a Network
-```sh
-docker network create my_custom_network
-```
-### Inspecting a Network
-```sh
-docker network inspect my_custom_network
-```
-### Removing a Network
-```sh
-docker network rm my_custom_network
-```
-### Running a Container with a Custom Network
-```sh
-docker run -d --name my_container --network my_custom_network nginx
-```
-### Connecting an Existing Container to a Network
-```sh
-docker network connect my_custom_network my_container
-```
-### Disconnecting a Container from a Network
-```sh
-docker network disconnect my_custom_network my_container
-
-```
-
-2. **Run containers in the custom network:**
-   ```bash
-   sudo docker run --network my_custom_network --name container1 -d nginx
-
-   sudo docker run --network my_custom_network --name container2 -d nginx
-
-   docker network create --subnet "192.168.0.0/16" --driver bridge newnetwork
-   
-   docker run -d -P --network host nginx:latest
-   ```
-   
-   # Day-5 : Docker Volumes
-
-## Introduction to Docker Volume
-Docker volumes are used for persisting data in Docker containers. Unlike bind mounts, volumes are managed by Docker and stored in a directory on the host machine that Docker manages (`/var/lib/docker/volumes/`). Volumes are the preferred way to handle data persistence in Docker because they are easier to manage and work across different environments.
-
-### Why Use Docker Volumes?
-- **Persistence:** Data remains even after the container is removed.
-- **Ease of Management:** Docker manages volumes separately from containers.
-- **Performance:** More efficient than bind mounts.
-- **Backup & Restore:** Easier to move data between different environments.
-- **Container Independence:** Volumes can be shared across multiple containers.
-
----
-## Docker Volume Commands
-### 1. Creating a Docker Volume
-```sh
-# Create a new volume
-docker volume create my_volume
-```
-This creates a volume named `my_volume`.
-
-### 2. Listing All Volumes
-```sh
-docker volume ls
-```
-This displays all the available Docker volumes.
-
-### 3. Inspecting a Volume
-```sh
-docker volume inspect my_volume
-```
-This gives detailed information about the specified volume, including its mount path.
-
-### 4. Removing a Volume
-```sh
-docker volume rm my_volume
-```
-This deletes the specified volume. (Ensure it is not being used by any container.)
-
-### 5. Removing All Unused Volumes
-```sh
-docker volume prune
-```
-This removes all unused volumes to free up space.
-
----
-## Using Docker Volumes with Containers
-### 1. Creating a Volume and Attaching it to a Container
-```sh
-docker run -d --name my_container -v my_volume:/data nginx
-```
-This starts a container named `my_container`, mounts the `my_volume` to `/data` directory, and runs an `nginx` server.
-
-### 2. Sharing a Volume Between Multiple Containers
-```sh
-docker run -d --name container1 -v shared_volume:/data nginx
-
-docker run -d --name container2 --volumes-from container1 nginx
-```
-Both `container1` and `container2` share the same `shared_volume` for data persistence.
-
----
-# Docker Volumes
-
-When you create a Docker container, all the data inside the container is **temporary**.
-
-If the container is deleted, all the data stored inside it is also deleted.
-
-To solve this problem, Docker provides **Volumes**.
+They target every container or image visible to the current Docker daemon. Teach students to list and remove specific resources first.
 
 ---
 
-# What is a Docker Volume?
+# 11. Practical labs
 
-A **Docker Volume** is a special storage location managed by Docker that stores data **outside the container's writable layer**.
+## Lab 1 — Container lifecycle
 
-Because the data is stored separately:
+1. Run Nginx on host port 8080.
+2. Open it in a browser.
+3. inspect its logs and metadata.
+4. Stop, start and remove it.
 
-- ✅ If the container is deleted, the data remains safe.
-- ✅ A new container can reuse the same data.
-- ✅ Multiple containers can share the same volume.
-- ✅ Docker manages the storage location automatically.
+## Lab 2 — Persistent data
 
-### Simple Definition
+1. Create a named volume.
+2. Write a file into it from one container.
+3. Remove that container.
+4. Read the same file from another container.
+5. Explain why the data survived.
 
-> **A Docker Volume is persistent storage used to keep container data safe even after the container is removed.**
+## Lab 3 — Container networking
 
----
+1. Create a user-defined bridge network.
+2. Run two containers on it.
+3. Resolve one container by name from the other.
+4. Disconnect one container and observe the failure.
 
-# Types of Persistent Storage in Docker
+## Lab 4 — Build an image
 
-Docker provides two common ways to persist data:
+1. Create a small Node.js or static Nginx application.
+2. Write a Dockerfile and `.dockerignore`.
+3. Build an explicitly tagged image.
+4. Run and test it.
+5. Inspect its image history.
 
-1. **Bind Mount**
-2. **Docker Volume**
+## Lab 5 — Compose application
 
----
-
-# 1. Bind Mount
-
-A **Bind Mount** maps a directory or file from the **host machine** directly into the container.
-
-The data is stored on your local system, and Docker does not manage it.
-
-### Command
-
-```bash
-sudo docker run -d \
-  --name todaycdec \
-  -P \
-  -v /home/ubuntu/website:/usr/share/nginx/html \
-  nginx
-```
-
-### Explanation
-
-| Part | Description |
-|------|-------------|
-| `docker run` | Creates and starts a new container |
-| `-d` | Runs the container in detached mode |
-| `--name todaycdec` | Container name |
-| `-P` | Publishes exposed ports automatically |
-| `-v /home/ubuntu/website:/usr/share/nginx/html` | Mounts the host directory into the container |
-| `nginx` | Uses the Nginx image |
-
-### How it Works
-
-```
-Host Machine
-┌───────────────────────────┐
-│ /home/ubuntu/website      │
-│   index.html              │
-│   style.css               │
-│   logo.png                │
-└──────────────┬────────────┘
-               │
-               │ Bind Mount
-               ▼
-Container (Nginx)
-┌───────────────────────────┐
-│ /usr/share/nginx/html     │
-│ index.html                │
-│ style.css                 │
-│ logo.png                  │
-└───────────────────────────┘
-```
-
-### Advantages
-
-- Easy to edit files from the host.
-- Great for development.
-- Changes on the host appear immediately inside the container.
-
-### Disadvantages
-
-- Depends on the host directory.
-- Not portable across different machines.
-- Docker does not manage the data.
+1. Define an API and database in `compose.yaml`.
+2. Add a named database volume.
+3. Add a database health check.
+4. Start the application.
+5. Read logs and enter the API container.
+6. Stop without deleting data, restart and verify persistence.
 
 ---
 
-# 2. Docker Volume
+# 12. Assignment and mini project
 
-A **Docker Volume** is managed entirely by Docker.
+## Assignment questions
 
-Instead of using a host directory, Docker stores the data in its own storage location.
+1. Explain image versus container.
+2. Explain `docker run` versus `docker exec`.
+3. Explain `EXPOSE` versus `-p`.
+4. Compare named volumes and bind mounts.
+5. Why is a user-defined bridge network useful?
+6. Explain `RUN`, `CMD` and `ENTRYPOINT`.
+7. Why should secrets not be copied into an image?
+8. What does `docker compose down --volumes` remove?
+9. Why is `depends_on` alone insufficient for readiness?
+10. Why is `chmod 777 /var/run/docker.sock` unsafe?
 
-### Command
+## Mini project — Three-tier application
 
-```bash
-docker run -d \
-  --name karan \
-  -P \
-  -v today:/usr/share/nginx/html \
-  nginx
-```
-
-### Explanation
-
-| Part | Description |
-|------|-------------|
-| `docker run` | Creates a container |
-| `-d` | Detached mode |
-| `--name karan` | Container name |
-| `-P` | Publishes exposed ports |
-| `-v today:/usr/share/nginx/html` | Mounts Docker Volume named **today** |
-| `nginx` | Uses the Nginx image |
-
-If the volume **today** does not exist, Docker automatically creates it.
-
----
-
-## How it Works
-
-```
-Docker Managed Volume
-
-today
-┌──────────────────────────┐
-│ index.html               │
-│ style.css                │
-│ images/                  │
-└──────────────┬───────────┘
-               │
-               │ Mounted
-               ▼
-Container (Nginx)
-┌───────────────────────────┐
-│ /usr/share/nginx/html     │
-│ index.html                │
-│ style.css                 │
-│ images/                   │
-└───────────────────────────┘
-```
-
----
-
-# Where are Docker Volumes Stored?
-
-On Linux:
+Build and document:
 
 ```text
-/var/lib/docker/volumes/
+Browser → Frontend → API → Database
 ```
 
-Example:
+Requirements:
 
-```text
-/var/lib/docker/volumes/today/_data
-```
+- Frontend and API each have a Dockerfile.
+- Database uses an official image and named volume.
+- Services run through `compose.yaml`.
+- Only required ports are published.
+- Internal services communicate by Compose service name.
+- Database includes a health check.
+- Secrets are not committed to Git.
+- README includes setup, architecture, commands, screenshots and troubleshooting notes.
 
-Docker stores all files inside the `_data` directory.
+## Completion checklist
+
+- [ ] I can explain every core Docker object.
+- [ ] I can run and inspect containers.
+- [ ] I can build a reproducible image.
+- [ ] I can choose between a volume and bind mount.
+- [ ] I can connect containers by service name.
+- [ ] I can run a multi-container application with Compose.
+- [ ] I can troubleshoot using logs and inspect commands.
+- [ ] I completed the mini project.
 
 ---
 
-# Check Existing Volumes
+# Official references
 
-```bash
-docker volume ls
-```
+- Docker Engine installation: https://docs.docker.com/engine/install/
+- Linux post-installation: https://docs.docker.com/engine/install/linux-postinstall/
+- Docker networking: https://docs.docker.com/engine/network/
+- Docker volumes: https://docs.docker.com/engine/storage/volumes/
+- Bind mounts: https://docs.docker.com/engine/storage/bind-mounts/
+- Docker Compose: https://docs.docker.com/compose/
+- Dockerfile best practices: https://docs.docker.com/build/building/best-practices/
 
-Example Output
-
-```text
-DRIVER    VOLUME NAME
-local     today
-local     website
-```
-
----
-
-# Inspect a Volume
-
-```bash
-docker volume inspect today
-```
-
----
-
-# Remove a Volume
-
-```bash
-docker volume rm today
-```
-
----
-
-# Remove Unused Volumes
-
-```bash
-docker volume prune
-```
-
----
-
-# Bind Mount vs Docker Volume
-
-| Feature | Bind Mount | Docker Volume |
-|----------|------------|---------------|
-| Managed By | Host OS | Docker |
-| Storage Location | Any host directory | `/var/lib/docker/volumes` |
-| Easy to Edit | ✅ Yes | ❌ Not directly |
-| Portable | ❌ No | ✅ Yes |
-| Best For | Development | Production |
-| Data Persists | ✅ Yes | ✅ Yes |
-
----
-
-# Real-Life Example
-
-Suppose you are running an Nginx website.
-
-### Using Bind Mount
-
-```
-Host Folder
-/home/ubuntu/website
-
-        │
-        ▼
-
-Container
-/usr/share/nginx/html
-```
-
-- Edit `index.html` on the host.
-- Refresh the browser.
-- Changes appear immediately.
-
----
-
-### Using Docker Volume
-
-```
-Docker Volume (today)
-
-        │
-        ▼
-
-Container
-/usr/share/nginx/html
-```
-
-- Docker stores the files.
-- Even if the container is deleted, the website files remain.
-- A new container can use the same volume.
-
----
-
-# Key Points
-
-- Docker containers are **ephemeral** (temporary).
-- Volumes provide **persistent storage**.
-- Bind Mounts use directories/files from the **host machine**.
-- Docker Volumes are managed by **Docker**.
-- Volumes survive container deletion.
-- Multiple containers can share the same Docker Volume.
-- Bind Mounts are ideal for **development**.
-- Docker Volumes are recommended for **production** workloads.
-# Day-6 : Introduction to Dockerfile
-A **Dockerfile** is a script that contains a set of instructions to automate the process of building Docker images. It allows developers to create customized container images with pre-installed applications and dependencies.
-
-## Key Dockerfile Instructions
-
-### 1. `FROM` (Base Image)
-Specifies the base image for the container.
-```dockerfile
-FROM ubuntu:latest
-```
-
-### 2. `LABEL` (Metadata)
-Adds metadata like author or description.
-```dockerfile
-LABEL maintainer="Your Name <your.email@example.com>"
-```
-
-### 3. `RUN` (Execute Commands)
-Executes shell commands inside the container.
-```dockerfile
-RUN apt update && apt install -y nginx
-```
-
-### 4. `CMD` (Default Command)
-Defines the default command to run inside the container.
-```dockerfile
-CMD ["nginx", "-g", "daemon off;"]
-```
-
-### 5. `ENTRYPOINT` (Command with Arguments)
-Defines a fixed command with arguments.
-```dockerfile
-ENTRYPOINT ["nginx"]
-CMD ["-g", "daemon off;"]
-```
-
-### 6. `ENV` (Environment Variables)
-Defines environment variables.
-```dockerfile
-ENV APP_ENV=production
-```
-
-### 7. `ARG` (Build Arguments)
-Defines arguments used during the build process.
-```dockerfile
-ARG APP_VERSION=1.0
-```
-
-### 8. `COPY` (Copy Files)
-Copies files from the local system to the container.
-```dockerfile
-COPY index.html /usr/share/nginx/html/
-```
-
-### 9. `ADD` (Copy and Extract Files)
-Similar to `COPY` but supports extracting compressed files.
-```dockerfile
-ADD archive.tar.gz /app/
-```
-
-### 10. `EXPOSE` (Expose Ports)
-Informs Docker that the container will listen on the specified port.
-```dockerfile
-EXPOSE 80
-```
-
-### 11. `USER` (Specify User)
-Sets the user for running commands inside the container.
-```dockerfile
-USER nginx
-```
-
-### 12. `WORKDIR` (Set Working Directory)
-Sets the working directory inside the container.
-```dockerfile
-WORKDIR /app
-```
-
-## Building and Running a Docker Image
-
-### Build a Docker Image
-```sh
-docker build -t my-image .
-```
-
-### Push Image to Docker Hub
-```sh
-docker login
-docker tag my-image username/my-image
-docker push username/my-image
-```
-
-### Pull an Image
-```sh
-docker pull username/my-image
-```
-
-### Run a Container from the Image
-```sh
-docker run -d -p 80:80 my-image
-```
-## Nginx Docker File
-```
-FROM ubuntu:latest
-LABEL maintainer="sourabh"
-RUN apt update && apt install -y nginx
-COPY index.html /var/www/html/
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
-----
-
-# Brief Introduction to Docker Compose
-
-Docker Compose is a tool that allows you to define and run multi-container Docker applications using a simple YAML file. With Docker Compose, you can configure and launch your entire application stack, including services, networks, and volumes, in a single command.
-
-## Key Features of Docker Compose:
-1. **Single Configuration**: Define all services in a single `docker-compose.yml` file.
-2. **Multi-Container Management**: Orchestrates multiple containers that form an application.
-3. **Easy to Use**: Simple commands like `docker-compose up` and `docker-compose down` for deployment and teardown.
-4. **Scalable**: Allows scaling individual services.
-
----
-
-# Deploy a Three-Tier Application Using Docker Compose
-
-In this example, we will deploy a **three-tier application** using Docker Compose. The three tiers include:
-1. **Frontend**: Angular application (UI layer).
-2. **Backend**: Spring Boot application (business logic layer).
-3. **Database**: MySQL (data layer).
-
-## Prerequisites:
-- Install **Docker** and **Docker Compose** on your machine.
-- Basic understanding of Docker and containers.
-
-**Build and Start** the services using Docker Compose.
-   ```bash
-   docker-compose up --build
-   ```
-
-
+> This guide should be used with hands-on practice. Commands that delete resources or expose host access must be understood before execution.
