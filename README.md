@@ -1,249 +1,457 @@
-# 🚀 CDEC DevOps Learning Journey
+🚀 CDEC DevOps Learning
 
-Welcome to my **DevOps Learning Repository**.
+Welcome to the CDEC DevOps Learning Repository.
 
-Hi, I'm **Arpit Mankar**, and this repository documents my journey of learning and practicing DevOps, Cloud Computing, Automation, CI/CD, Containerization, and Infrastructure as Code.
+This repository is designed as a structured learning resource for students who want to learn DevOps from fundamentals to practical implementation.
 
-Here I maintain my **notes, commands, concepts, practical exercises, projects, and interview preparation**.
+The goal is simple:
 
----
+Learn → Understand → Practice → Build → Document → Improve
 
-## 👨‍💻 About Me
+📚 DevOps Learning Roadmap
 
-* 🎓 Electronics & Telecommunication Engineering
-* ☁️ Interested in Cloud & DevOps Engineering
-* 🐧 Learning Linux and system administration
-* 🚀 Building practical DevOps skills
-* 🔧 Interested in automation and infrastructure
-* 📚 Continuously learning and documenting my progress
+Follow the topics in this order:
 
----
+1️⃣ DevOps Fundamentals
 
-# 🛠️ Technologies & Tools
-
-| Category                    | Technologies |
-| --------------------------- | ------------ |
-| ☁️ Cloud                    | AWS          |
-| 🐧 Operating System         | Linux        |
-| 🔧 Version Control          | Git, GitHub  |
-| 🐳 Containers               | Docker       |
-| ☸️ Container Orchestration  | Kubernetes   |
-| 🔄 CI/CD                    | Jenkins      |
-| 🏗️ Infrastructure as Code  | Terraform    |
-| ⚙️ Configuration Management | Ansible      |
-
----
-
-# 📚 Repository Contents
-
-## 01. DevOps Fundamentals
-
-Fundamentals of software development, cloud and DevOps.
+Learn the fundamentals of software development and DevOps.
 
 Topics include:
 
-* Introduction to DevOps
-* Software Development Life Cycle (SDLC)
-* Waterfall vs Agile
-* DevOps Culture
-* DevOps Tools
-* CapEx vs OpEx
-* Virtualization
-* Hypervisors
-* On-Premises vs Cloud
+Introduction to DevOps
 
----
+Software Development Life Cycle (SDLC)
 
-## 02. Linux
+Waterfall vs Agile
 
-Linux fundamentals and commands used in DevOps and Cloud environments.
+DevOps Culture
 
-Topics include:
+DevOps Principles
 
-* Linux Introduction
-* Linux Architecture
-* Linux File System
-* Linux Commands
-* File and Directory Management
-* Users and Groups
-* File Permissions
-* Processes
-* Vim Editor
-* Package Management
-* Archive and Compression
-* Cron Jobs
-* grep, sed and awk
+DevOps Tools
 
----
+CapEx vs OpEx
 
-## 03. Git & GitHub
+Virtualization
 
-Version control and GitHub fundamentals.
+Hypervisors
+
+On-Premises vs Cloud
+
+➡️ Go to: DevOps/
+
+2️⃣ Linux
+
+Linux is one of the most important foundations for DevOps and Cloud Computing.
 
 Topics include:
 
-* Git Introduction
-* Git Configuration
-* Git Commands
-* Repository Management
-* Branching
-* Merging
-* Remote Repositories
-* GitHub
-* Pull Requests
-* Version Control
+Linux Introduction
 
----
+Linux Architecture
 
-## 04. AWS
+Linux File System
 
-Cloud computing and AWS fundamentals.
+Basic Linux Commands
 
-Topics include:
+Files and Directories
 
-* AWS Fundamentals
-* EC2
-* S3
-* IAM
-* VPC
-* RDS
-* Lambda
-* CloudWatch
-* EKS
-* AWS Networking
-* AWS Security
+Users and Groups
 
----
+File Permissions
 
-## 05. Docker
+Processes
 
-Containerization and Docker fundamentals.
+Vim Editor
+
+Package Management
+
+grep, sed and awk
+
+Archive and Compression
+
+Cron Jobs
+
+➡️ Go to: LINUX/
+
+3️⃣ Git & GitHub
+
+Learn version control and collaborative development.
 
 Topics include:
 
-* Docker Introduction
-* Docker Architecture
-* Images
-* Containers
-* Dockerfile
-* Docker Volumes
-* Docker Networking
-* Docker Compose
-* Container Management
+What is Git?
 
----
+Git Installation
 
-## 06. Jenkins & CI/CD
+Git Configuration
 
-Continuous Integration and Continuous Deployment.
+Repository
 
-Topics include:
+git init
 
-* Jenkins Fundamentals
-* Jenkins Installation
-* Jenkins Jobs
-* Jenkins Pipelines
-* Jenkinsfile
-* GitHub Integration
-* CI/CD Concepts
-* Pipeline Automation
+git clone
 
----
+git add
 
-## 07. Kubernetes
+git commit
 
-Container orchestration and Kubernetes fundamentals.
+git push
 
-Topics include:
+git pull
 
-* Kubernetes Introduction
-* Kubernetes Architecture
-* Pods
-* Deployments
-* Services
-* Namespaces
-* ConfigMaps
-* Secrets
-* Kubernetes Networking
-* AWS EKS
+Branching
 
----
+Merging
 
-## 08. Terraform
+GitHub
 
-Infrastructure as Code and cloud infrastructure automation.
+Pull Requests
+
+➡️ Go to: Git-GitHub/
+
+4️⃣ AWS
+
+Learn the fundamentals of cloud computing using Amazon Web Services.
 
 Topics include:
 
-* Terraform Fundamentals
-* Providers
-* Resources
-* Variables
-* Outputs
-* Terraform State
-* Modules
-* AWS Infrastructure
+Cloud Computing
 
----
+AWS Global Infrastructure
 
-## 09. Ansible
+IAM
 
-Configuration management and automation.
+EC2
+
+S3
+
+VPC
+
+Security Groups
+
+RDS
+
+CloudWatch
+
+Load Balancing
+
+Auto Scaling
+
+➡️ Go to: AWS/
+
+5️⃣ Docker
+
+Learn containerization and how applications are packaged and deployed.
 
 Topics include:
 
-* Ansible Fundamentals
-* Inventory
-* Playbooks
-* Tasks
-* Modules
-* Variables
-* Configuration Management
+What is Docker?
 
----
+Docker Architecture
 
-# 🚀 Projects
+Docker Engine
 
-This section will contain my hands-on DevOps projects.
+Images
 
-Planned projects include:
+Containers
 
-* Dockerized applications
-* Jenkins CI/CD pipelines
-* AWS infrastructure
-* Terraform projects
-* Kubernetes deployments
-* Ansible automation
+Dockerfile
 
----
+Docker Hub
 
-# 🎯 My DevOps Goals
+Volumes
 
-* Build strong Linux fundamentals
-* Improve AWS cloud skills
-* Master Docker and Kubernetes
-* Build production-style CI/CD pipelines
-* Learn Infrastructure as Code
-* Automate repetitive infrastructure tasks
-* Build real-world DevOps projects
-* Continuously improve my technical skills
+Networking
 
----
+Docker Compose
 
-# 📖 Learning Philosophy
+➡️ Go to: Docker/
 
-> **Learn → Practice → Build → Document → Improve**
+6️⃣ Jenkins & CI/CD
 
-I believe the best way to learn DevOps is by combining **theory with hands-on practice**.
+Learn how to automate software build, test and deployment processes.
 
-This repository will grow as I learn, practice, and build new projects.
+Topics include:
 
----
+CI/CD Fundamentals
 
-# 📫 Connect With Me
+Jenkins Introduction
 
-* GitHub: [Arpit Mankar](https://github.com/arpitmankar441)
+Jenkins Installation
 
----
+Jenkins Jobs
 
-⭐ **This repository is a work in progress and will be continuously updated with new DevOps concepts, practical exercises, and projects.**
+Freestyle Projects
+
+Pipelines
+
+Jenkinsfile
+
+GitHub Integration
+
+Webhooks
+
+Automated Deployment
+
+➡️ Go to: Jenkins/
+
+7️⃣ Kubernetes
+
+Learn container orchestration and application management.
+
+Topics include:
+
+Kubernetes Introduction
+
+Kubernetes Architecture
+
+Control Plane
+
+Worker Nodes
+
+Pods
+
+Deployments
+
+ReplicaSets
+
+Services
+
+Namespaces
+
+ConfigMaps
+
+Secrets
+
+Kubernetes Networking
+
+Amazon EKS
+
+➡️ Go to: Kubernetes/
+
+8️⃣ Terraform
+
+Learn Infrastructure as Code and cloud infrastructure automation.
+
+Topics include:
+
+Infrastructure as Code
+
+Terraform Introduction
+
+Providers
+
+Resources
+
+Variables
+
+Outputs
+
+State
+
+Terraform Commands
+
+Modules
+
+AWS Infrastructure
+
+➡️ Go to: Terraform/
+
+9️⃣ Ansible
+
+Learn configuration management and infrastructure automation.
+
+Topics include:
+
+Ansible Introduction
+
+Ansible Architecture
+
+Inventory
+
+Modules
+
+Tasks
+
+Playbooks
+
+Variables
+
+Handlers
+
+Roles
+
+➡️ Go to: Ansible/
+
+🧪 Practical Labs
+
+Learning DevOps requires hands-on practice.
+
+Students will gradually work on practical labs such as:
+
+Linux administration
+
+Git repository management
+
+AWS EC2 deployment
+
+Docker container deployment
+
+Jenkins CI/CD pipeline
+
+Kubernetes application deployment
+
+Terraform infrastructure
+
+Ansible automation
+
+📝 Assignments
+
+Assignments will help students test their understanding.
+
+Planned assignments include:
+
+DevOps Fundamentals Assignment
+
+Linux Commands Assignment
+
+Git & GitHub Assignment
+
+AWS Assignment
+
+Docker Assignment
+
+Jenkins Assignment
+
+Kubernetes Assignment
+
+Terraform Assignment
+
+Ansible Assignment
+
+➡️ Go to: Assignments/
+
+🎯 Interview Preparation
+
+Each technology will also contain interview questions and answers.
+
+Topics include:
+
+Linux Interview Questions
+
+Git Interview Questions
+
+AWS Interview Questions
+
+Docker Interview Questions
+
+Jenkins Interview Questions
+
+Kubernetes Interview Questions
+
+Terraform Interview Questions
+
+Ansible Interview Questions
+
+➡️ Go to: Interview-Prep/
+
+👨‍🏫 How Students Should Use This Repository
+
+Follow these steps for every topic:
+
+Step 1 — Learn
+
+Read the theory and understand the concept.
+
+Step 2 — Practice
+
+Run the commands and examples yourself.
+
+Step 3 — Perform the Lab
+
+Complete the practical exercise.
+
+Step 4 — Complete the Assignment
+
+Test your understanding.
+
+Step 5 — Review
+
+Go through the interview questions.
+
+Step 6 — Build
+
+Apply the knowledge in a real-world project.
+
+🛠️ Technologies Covered
+
+Technology
+
+Purpose
+
+Linux
+
+Operating System
+
+Git
+
+Version Control
+
+GitHub
+
+Code Collaboration
+
+AWS
+
+Cloud Computing
+
+Docker
+
+Containerization
+
+Jenkins
+
+CI/CD
+
+Kubernetes
+
+Container Orchestration
+
+Terraform
+
+Infrastructure as Code
+
+Ansible
+
+Configuration Management
+
+📖 Learning Philosophy
+
+Learn → Practice → Build → Document → Improve
+
+DevOps cannot be learned only by reading theory.
+
+Students should practice every concept, understand how the tools work, and build projects using them.
+
+⭐ Repository Status
+
+This repository is continuously updated with:
+
+📚 New learning materials
+
+🧪 Practical labs
+
+📝 Assignments
+
+🎯 Interview questions
+
+🚀 DevOps projects
+
+👨‍💻 Maintained By
+
+Arpit Mankar
+
+GitHub: arpitmankar441
+
+⭐ If this repository helps you learn DevOps, consider giving it a star and sharing it with other learners.
