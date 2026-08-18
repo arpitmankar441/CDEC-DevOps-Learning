@@ -137,3 +137,32 @@ Before moving to the next topic, students should be able to answer:
 6. Name three Linux distributions.
 
 ---
+
+# 2. Linux Architecture
+
+Linux follows a layered architecture that allows users and applications to interact with computer hardware.
+
+The main components are:
+
+```text
++----------------------+
+|        User          |
++----------------------+
+           ↓
++----------------------+
+| Application / Tools  |
++----------------------+
+           ↓
++----------------------+
+|        Shell         |
++----------------------+
+           ↓
++----------------------+
+|        Kernel        |
++----------------------+
+           ↓
++----------------------+
+|       Hardware       |
++----------------------+
+
+---
