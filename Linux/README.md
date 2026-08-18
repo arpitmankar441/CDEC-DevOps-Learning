@@ -163,3 +163,55 @@ The main components are:
 +----------------------+
 
 ---
+## Linux Architecture Components
+
+### 1. Hardware
+
+Hardware is the physical part of a computer.
+
+Examples:
+
+- CPU
+- RAM
+- Hard Disk / SSD
+- Keyboard
+- Mouse
+- Network Card
+
+Hardware performs the actual physical operations of the computer.
+
+---
+
+### 2. Kernel
+
+The Kernel is the **core of the Linux operating system**.
+
+It acts as a bridge between hardware and software.
+
+The Kernel manages:
+
+- CPU
+- Memory
+- Processes
+- Devices
+- File systems
+- Networking
+
+### Example
+
+When you run a command such as:
+
+```bash
+ls
+---
+
+# 3. Linux File System
+
+The Linux file system is the way Linux organizes and stores files and directories.
+
+Linux uses a hierarchical file system.
+
+The top-level directory is:
+
+```text
+/
