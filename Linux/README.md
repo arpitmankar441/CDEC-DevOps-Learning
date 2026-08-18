@@ -52,9 +52,6 @@ Students should follow this order:
 17. Assignment
         ↓
 18. Mini Project
-
----
-
 # 1. Operating System Basics
 
 ## What is an Operating System?
