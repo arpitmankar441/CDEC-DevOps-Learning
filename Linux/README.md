@@ -52,15 +52,40 @@ Students should follow this order:
 17. Assignment
         ↓
 18. Mini Project
+```
+
+---
+
+# 🎯 Linux Learning Outcome
+
+After completing this Linux section, students should be able to:
+
+- Understand Linux fundamentals
+- Navigate the Linux file system
+- Use essential Linux commands
+- Create and manage files and directories
+- Manage users and groups
+- Understand and configure file permissions
+- Monitor and manage processes
+- Install and manage software packages
+- Understand basic Linux networking
+- Edit files using Vim
+- Search and process text using grep, sed and awk
+- Create and extract archives
+- Schedule tasks using cron
+- Troubleshoot common Linux problems
+- Perform basic Linux administration tasks
+- Use Linux confidently in DevOps environments
+
+---
+
 # 1. Operating System Basics
 
 ## What is an Operating System?
 
-An Operating System (OS) is system software that acts as an interface between the user and computer hardware.
+An Operating System (OS) is system software that manages computer hardware and provides an interface between the user and the computer.
 
-It manages hardware resources and provides services for applications.
-
-### Examples of Operating Systems
+Examples:
 
 - Linux
 - Windows
@@ -86,38 +111,28 @@ An operating system manages:
 
 ---
 
-## Linux vs Windows
-
-| Feature | Linux | Windows |
-|---|---|---|
-| Type | Open-source | Proprietary |
-| Source Code | Available | Closed |
-| Command Line | Very powerful | PowerShell / CMD |
-| Server Usage | Very common | Common |
-| Customization | Highly customizable | More limited |
-| Cost | Mostly free | Usually licensed |
-| DevOps Usage | Very common | Less common |
-
----
-
 ## Why Linux is Important for DevOps
 
-Linux is widely used in DevOps and cloud environments because it is:
+Linux is widely used in DevOps because it is:
 
 - Open-source
 - Stable
 - Secure
 - Lightweight
-- Highly customizable
 - Automation-friendly
+- Highly customizable
 - Widely supported by cloud platforms
 
-### Common Linux Distributions
+---
+
+## Common Linux Distributions
+
+Some popular Linux distributions are:
 
 - Ubuntu
-- Amazon Linux
-- Red Hat Enterprise Linux (RHEL)
 - Debian
+- Red Hat Enterprise Linux (RHEL)
+- Amazon Linux
 - Rocky Linux
 
 ---
@@ -127,91 +142,57 @@ Linux is widely used in DevOps and cloud environments because it is:
 Before moving to the next topic, students should be able to answer:
 
 1. What is an Operating System?
-2. What are the responsibilities of an OS?
+2. What are the main responsibilities of an OS?
 3. What is Linux?
-4. What is the difference between Linux and Windows?
-5. Why is Linux important for DevOps?
-6. Name three Linux distributions.
+4. Why is Linux important for DevOps?
+5. Name three Linux distributions.
 
 ---
 
-# 2. Linux Architecture
+# 🧪 Hands-On Practice
 
-Linux follows a layered architecture that allows users and applications to interact with computer hardware.
+Students should practice Linux commands regularly instead of only reading theory.
 
-The main components are:
+Recommended practice environments:
 
-```text
-+----------------------+
-|        User          |
-+----------------------+
-           ↓
-+----------------------+
-| Application / Tools  |
-+----------------------+
-           ↓
-+----------------------+
-|        Shell         |
-+----------------------+
-           ↓
-+----------------------+
-|        Kernel        |
-+----------------------+
-           ↓
-+----------------------+
-|       Hardware       |
-+----------------------+
+- Ubuntu Linux
+- Virtual Machine
+- AWS EC2 Linux instance
+- WSL (Windows Subsystem for Linux)
 
----
-## Linux Architecture Components
-
-### 1. Hardware
-
-Hardware is the physical part of a computer.
-
-Examples:
-
-- CPU
-- RAM
-- Hard Disk / SSD
-- Keyboard
-- Mouse
-- Network Card
-
-Hardware performs the actual physical operations of the computer.
-
----
-
-### 2. Kernel
-
-The Kernel is the **core of the Linux operating system**.
-
-It acts as a bridge between hardware and software.
-
-The Kernel manages:
-
-- CPU
-- Memory
-- Processes
-- Devices
-- File systems
-- Networking
-
-### Example
-
-When you run a command such as:
+Example:
 
 ```bash
+mkdir linux-practice
+cd linux-practice
+pwd
 ls
+```
+
 ---
 
-# 3. Linux File System
+# 🚀 Next Step
 
-The Linux file system is the way Linux organizes and stores files and directories.
-
-Linux uses a hierarchical file system.
-
-The top-level directory is:
+After completing Linux Fundamentals, students can continue with:
 
 ```text
-/
+Linux
+   ↓
+Git & GitHub
+   ↓
+AWS
+   ↓
+Docker
+   ↓
+Jenkins
+   ↓
+Kubernetes
+   ↓
+Terraform
+   ↓
+Ansible
+   ↓
+DevOps Projects
+```
+
+> **Important:** Learn each technology step-by-step. Practice before moving to the next topic.
