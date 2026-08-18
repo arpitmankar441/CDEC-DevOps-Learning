@@ -52,3 +52,88 @@ Students should follow this order:
 17. Assignment
         ↓
 18. Mini Project
+
+---
+
+# 1. Operating System Basics
+
+## What is an Operating System?
+
+An Operating System (OS) is system software that acts as an interface between the user and computer hardware.
+
+It manages hardware resources and provides services for applications.
+
+### Examples of Operating Systems
+
+- Linux
+- Windows
+- macOS
+- Android
+- iOS
+
+---
+
+## Main Responsibilities of an Operating System
+
+An operating system manages:
+
+- CPU
+- Memory
+- Storage
+- Files
+- Processes
+- Users
+- Devices
+- Networking
+- Security
+
+---
+
+## Linux vs Windows
+
+| Feature | Linux | Windows |
+|---|---|---|
+| Type | Open-source | Proprietary |
+| Source Code | Available | Closed |
+| Command Line | Very powerful | PowerShell / CMD |
+| Server Usage | Very common | Common |
+| Customization | Highly customizable | More limited |
+| Cost | Mostly free | Usually licensed |
+| DevOps Usage | Very common | Less common |
+
+---
+
+## Why Linux is Important for DevOps
+
+Linux is widely used in DevOps and cloud environments because it is:
+
+- Open-source
+- Stable
+- Secure
+- Lightweight
+- Highly customizable
+- Automation-friendly
+- Widely supported by cloud platforms
+
+### Common Linux Distributions
+
+- Ubuntu
+- Amazon Linux
+- Red Hat Enterprise Linux (RHEL)
+- Debian
+- Rocky Linux
+
+---
+
+## 🎯 Student Practice
+
+Before moving to the next topic, students should be able to answer:
+
+1. What is an Operating System?
+2. What are the responsibilities of an OS?
+3. What is Linux?
+4. What is the difference between Linux and Windows?
+5. Why is Linux important for DevOps?
+6. Name three Linux distributions.
+
+---
