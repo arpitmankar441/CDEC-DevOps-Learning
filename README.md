@@ -38,7 +38,7 @@ Hypervisors
 
 On-Premises vs Cloud
 
-➡️ Go to: DevOps/
+➡️ [Go to DevOps Fundamentals](./DevOps/README.md)
 
 2️⃣ Linux
 
@@ -72,7 +72,7 @@ Archive and Compression
 
 Cron Jobs
 
-➡️ Go to: LINUX/
+➡️ [Go to Linux Fundamentals](./Linux/README.md)
 
 3️⃣ Git & GitHub
 
@@ -108,7 +108,7 @@ GitHub
 
 Pull Requests
 
-➡️ Go to: Git-GitHub/
+➡️ [Go to Git and GitHub](./Git/README.md)
 
 4️⃣ AWS
 
@@ -138,7 +138,7 @@ Load Balancing
 
 Auto Scaling
 
-➡️ Go to: AWS/
+➡️ [Go to AWS Fundamentals](./AWS/README.md)
 
 5️⃣ Docker
 
@@ -166,7 +166,7 @@ Networking
 
 Docker Compose
 
-➡️ Go to: Docker/
+➡️ [Go to Docker Fundamentals](./Docker/README.md)
 
 6️⃣ Jenkins & CI/CD
 
