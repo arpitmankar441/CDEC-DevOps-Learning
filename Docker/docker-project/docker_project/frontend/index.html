@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Docker Networking Lab</title>
+    <style>
+      body { font-family: Arial, sans-serif; background: #eef5ff; margin: 0; }
+      main { max-width: 680px; margin: 80px auto; padding: 32px; background: white;
+        border-radius: 14px; box-shadow: 0 8px 30px #b7c9df; }
+      h1 { color: #1868b7; }
+      button { background: #1868b7; color: white; border: 0; padding: 12px 18px;
+        border-radius: 8px; cursor: pointer; }
+      #result { margin-top: 22px; padding: 16px; background: #f4f7fa;
+        border-left: 4px solid #1868b7; min-height: 24px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Docker Image & Networking Lab</h1>
+      <p>This page runs in the <strong>frontend container</strong>.</p>
+      <p>Click the button to request data from the <strong>API container</strong>.</p>
+      <button id="load-message">Contact API Container</button>
+      <div id="result">Waiting for a request...</div>
+    </main>
+
+    <script>
+      const result = document.getElementById("result");
+      document.getElementById("load-message").addEventListener("click", async () => {
+        result.textContent = "Contacting the API...";
+        try {
+          const response = await fetch("/api/message");
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          result.textContent = `${data.message} ${data.lesson}`;
+        } catch (error) {
+          result.textContent = `Request failed: ${error.message}`;
+        }
+      });
+    </script>
+  </body>
+</html>

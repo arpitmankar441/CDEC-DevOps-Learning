@@ -1,0 +1,20 @@
+services:
+  api:
+    build: ./api
+    image: student-docker-api:1.0
+    networks:
+      - student-network
+
+  frontend:
+    build: ./frontend
+    image: student-docker-frontend:1.0
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+    networks:
+      - student-network
+
+networks:
+  student-network:
+    driver: bridge
